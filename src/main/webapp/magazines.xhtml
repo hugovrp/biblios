@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:p="http://primefaces.org/ui">
+			    
+    <ui:define name="body">
+        <h:form id="formMagazines">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Nova Revista" icon="pi pi-plus" actionListener="#{magazineMB.clean()}" oncomplete="PF('dlgMag').show()" update=":formDlg:magDetail" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt-magazines" value="#{magazineMB.allMagazines}" var="m" paginator="true" rows="10" styleClass="mt-2">
+                
+                <p:column headerText="Coleção">#{m.edition.series.name}</p:column>
+                <p:column headerText="Edição">#{m.edition.editionNumber}</p:column>
+                <p:column headerText="Ano">#{m.edition.year}</p:column>
+                <p:column headerText="Caixa (Cor)">#{m.box.color} (Nº #{m.box.number})</p:column>
+                <p:column headerText="Status">
+                    <p:tag value="#{m.status}" severity="#{m.status == 'AVAILABLE' ? 'success' : 'danger'}" />
+                </p:column>
+                
+                <p:column headerText="Ações">
+                    <p:commandButton icon="pi pi-pencil" update=":formDlg:magDetail" oncomplete="PF('dlgMag').show()">
+                        <f:setPropertyActionListener value="#{m}" target="#{magazineMB.magazine}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Cadastro de Revista" widgetVar="dlgMag" modal="true" responsive="true">
+            <h:form id="formDlg">
+                <p:outputPanel id="magDetail" styleClass="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="edition">Edição/Série</p:outputLabel>
+                        <p:selectOneMenu id="edition" value="#{magazineMB.magazine.edition}" converter="entityConverter" required="true">
+                            <f:selectItem itemLabel="Selecione a Edição..." itemValue="" />
+                            <f:selectItems value="#{magazineMB.editions}" var="e" itemLabel="#{e.series.name} - Ed. #{e.editionNumber}" itemValue="#{e}" />
+                        </p:selectOneMenu>
+                    </div>
+
+                    <div class="field mt-3">
+                        <p:outputLabel for="box">Caixa de Destino</p:outputLabel>
+                        <p:selectOneMenu id="box" value="#{magazineMB.magazine.box}" converter="entityConverter" required="true">
+                            <f:selectItem itemLabel="Selecione a Caixa..." itemValue="" />
+                            <f:selectItems value="#{magazineMB.boxes}" var="b" itemLabel="Cor: #{b.color} - Nº #{b.number}" itemValue="#{b}" />
+                        </p:selectOneMenu>
+                    </div>
+
+                    <div class="mt-4">
+                        <p:commandButton value="Salvar" actionListener="#{magazineMB.save()}" update=":formMagazines:dt-magazines :messages" oncomplete="if (!args.validationFailed) PF('dlgMag').hide()" />
+                    </div>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

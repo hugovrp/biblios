@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Biblios - Login</title>
+        <h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+    </h:head>
+
+    <h:body>
+        <p:growl id="messages" showDetail="true"><p:autoUpdate /></p:growl>
+        
+        <div class="login-container">
+            <p:card>
+                <h:form id="login">
+                    <h2>Login - Biblios</h2>
+                    <div class="ui-fluid">
+                        <p:inputText placeholder="E-mail" value="#{userMB.loginInput}" required="true" />
+                        <p:password placeholder="Senha" value="#{userMB.passwordInput}" required="true"/>
+                        <p:commandButton value="Entrar" action="#{userMB.login()}" ajax="false"/>
+                        <p:link value="Criar nova conta" outcome="register"/>
+                    </div>
+                </h:form>
+            </p:card>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:p="http://primefaces.org/ui">
+			    
+    <ui:define name="body">
+        <h:form id="formSeries">
+            <p:panel header="Gerenciar Coleções">
+                <p:commandButton value="Nova Coleção" icon="pi pi-plus" oncomplete="PF('dlgSeries').show()" update=":formDlg:seriesDetail" />
+
+                <p:dataTable value="#{seriesMB.allSeries}" var="s" paginator="true" rows="10">
+                    <p:column headerText="ID">#{s.id}</p:column>
+                    <p:column headerText="Nome">#{s.name}</p:column>
+                    <p:column headerText="Ações">
+                        <p:commandButton icon="pi pi-pencil" update=":formDlg:seriesDetail" oncomplete="PF('dlgSeries').show()">
+                            <f:setPropertyActionListener value="#{s}" target="#{seriesMB.series}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="Detalhes da Coleção" widgetVar="dlgSeries" modal="true" resizable="false">
+            <h:form id="formDlg">
+                <h:panelGrid columns="2" id="seriesDetail">
+                    <p:outputLabel for="nome" value="Nome:" />
+                    <p:inputText id="nome" value="#{seriesMB.series.name}" required="true" />
+                    
+                    <p:commandButton value="Salvar" action="#{seriesMB.save()}" update=":formSeries :formDlg" oncomplete="PF('dlgSeries').hide()" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

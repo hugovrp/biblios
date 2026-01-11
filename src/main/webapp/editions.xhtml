@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:p="http://primefaces.org/ui">
+			    
+    <ui:define name="body">
+        <h:form id="formEditions">
+            <p:panel header="Gerenciar Edições de Coleções">
+                <p:commandButton value="Nova Edição" icon="pi pi-plus" actionListener="#{editionMB.clean()}" oncomplete="PF('dlgEdition').show()" update=":formDlg:editionDetail" />
+                <p:dataTable id="dt-editions" value="#{editionMB.allEditions}" var="e" paginator="true" rows="10" styleClass="mt-2" emptyMessage="Nenhuma edição cadastrada.">
+                    <p:column headerText="Coleção" sortBy="#{e.series.name}">
+                        #{e.series.name}
+                    </p:column>
+                    
+                    <p:column headerText="Número da Edição">
+                        #{e.editionNumber}
+                    </p:column>
+                    
+                    <p:column headerText="Ano">
+                        #{e.year}
+                    </p:column>
+
+                    <p:column headerText="Ações">
+                        <p:commandButton icon="pi pi-pencil" update=":formDlg:editionDetail" oncomplete="PF('dlgEdition').show()" styleClass="edit-button rounded-button ui-button-success">
+                            <f:setPropertyActionListener value="#{e}" target="#{editionMB.edition}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="Detalhes da Edição" widgetVar="dlgEdition" modal="true" responsive="true">
+            <h:form id="formDlg">
+                <p:outputPanel id="editionDetail" styleClass="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="series">Coleção (Série)</p:outputLabel>
+                        <p:selectOneMenu id="series" value="#{editionMB.edition.series}" required="true" converter="entityConverter">
+                            <f:selectItem itemLabel="Selecione uma Coleção..." itemValue="" />
+                            <f:selectItems value="#{editionMB.seriesList}" var="s" itemLabel="#{s.name}" itemValue="#{s}" />
+                        </p:selectOneMenu>
+                    </div>
+
+                    <div class="field mt-3">
+                        <p:outputLabel for="number">Número da Edição</p:outputLabel>
+                        <p:inputNumber id="number" value="#{editionMB.edition.editionNumber}" decimalPlaces="0" required="true" />
+                    </div>
+
+                    <div class="field mt-3">
+                        <p:outputLabel for="year">Ano</p:outputLabel>
+                        <p:inputMask id="year" value="#{editionMB.edition.year}" mask="9999" required="true" />
+                    </div>
+
+                    <div class="mt-4">
+                        <p:commandButton value="Salvar" actionListener="#{editionMB.save()}" update=":formEditions:dt-editions :messages" oncomplete="if (!args.validationFailed) PF('dlgEdition').hide()" />
+                    </div>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Biblios</title>
+		<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+	</h:head>
+	
+	<h:body>
+		<p:growl id="messages" showDetail="true"><p:autoUpdate /></p:growl>
+
+	    <div id="header">
+	        <h:form id="menuForm">
+	            <p:menubar rendered="#{userMB.loggedUser != null}">
+	                <p:menuitem value="Home" icon="pi pi-home" outcome="index" />
+	                
+	                <p:submenu label="Admin" rendered="#{userMB.loggedUser.profile == 'admin'}">
+	                    <p:menuitem value="Caixas" outcome="boxes"/>
+	                    <p:menuitem value="Coleções" outcome="series"/>
+	                    <p:menuitem value="Edições" outcome="editions"/>
+	                    <p:menuitem value="Revistas" outcome="magazines"/>
+	                    <p:menuitem value="Gerenciar Devoluções" outcome="admin_loans"/>
+	                    <p:menuitem value="Relatórios" outcome="reports"/>
+	                </p:submenu>
+	
+	                <p:submenu label="Loans">
+	                	<p:menuitem value="Solicitar" outcome="request_loan"/>
+	                	<p:menuitem value="Meu Histórico" outcome="loan_history"/>
+	                </p:submenu>
+	
+	                <f:facet name="options">
+	                    <p:commandButton value="Sair (#{userMB.loggedUser.name})" action="#{userMB.logout()}" icon="pi pi-sign-out" />
+	                </f:facet>
+	            </p:menubar>
+	        </h:form>
+	    </div>
+	
+	    <div id="content">
+	        <ui:insert name="body" />
+	    </div>
+			
+		<div id="footer">
+			<p>Copyright © 2026 Biblios. Todos os direitos reservados.</p>
+			<p>Desenvolvido por Hugo Vinícius Rodrigues Pereira</p>
+		</div>
+	</h:body>
+</html>

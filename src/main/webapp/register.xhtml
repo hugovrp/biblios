@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Biblios - Cadastro</title>
+        <h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+    </h:head>
+
+    <h:body>
+        <p:growl id="messages" showDetail="true"><p:autoUpdate /></p:growl>
+        
+        <div class="register-container">
+            <p:card>
+		        <h:form id="register">
+		            <h2>Novo Cadastro</h2>
+		            <div class="ui-fluid">
+		            	<p:panelGrid columns="2" layout="grid">
+		                    <h:panelGroup>
+		                        <p:outputLabel value="Nome Completo" for="nome"/>
+		                        <p:inputText id="nome" value="#{userMB.user.name}" required="true" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="E-mail (Será seu login)" for="email"/>
+		                        <p:inputText id="email" value="#{userMB.user.email}" required="true" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="CPF" for="cpf"/>
+		                        <p:inputMask id="cpf" value="#{userMB.user.cpf}" mask="999.999.999-99" required="true" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="Telefone" for="tel"/>
+		                        <p:inputText id="tel" value="#{userMB.user.telephone}" required="true" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="Usuário (Opcional)" for="userField"/>
+		                        <p:inputText id="userField" value="#{userMB.user.login}" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="Data de Nascimento (Opcional)" for="dataNasc"/>
+		                        <p:datePicker id="dataNasc" value="#{userMB.user.birthDate}" 
+		                                      monthNavigator="true" yearNavigator="true" pattern="dd/MM/yyyy" />
+		                    </h:panelGroup>
+		
+		                    <h:panelGroup>
+		                        <p:outputLabel value="Senha" for="pass"/>
+		                        <p:password id="pass" value="#{userMB.user.password}" required="true" feedback="true" />
+		                    </h:panelGroup>
+		                </p:panelGrid>
+		                
+		                <p:commandButton value="Registrar" action="#{userMB.register()}" update="@form" style="margin-top: 20px" icon="pi pi-check" />
+		                <p:button value="Voltar" outcome="login" styleClass="ui-button-flat" style="margin-top: 10px" />
+		            </div>
+		        </h:form>
+		    </p:card>
+        </div>
+    </h:body>
+</html>

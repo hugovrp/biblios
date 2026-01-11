@@ -36,10 +36,18 @@ public class DAO<T> {
 	 */
 	public void insert(T entity) {
 	    EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-	    entityManager.getTransaction().begin();
-	    entityManager.merge(entity); 
-	    entityManager.getTransaction().commit();
-	    entityManager.close();
+	    try {
+	        entityManager.getTransaction().begin();
+	        entityManager.persist(entity); 
+	        entityManager.getTransaction().commit();
+	    } catch (Exception e) {
+	        if (entityManager.getTransaction().isActive()) {
+	            entityManager.getTransaction().rollback();
+	        }
+	        throw e;
+	    } finally {
+	        entityManager.close(); 
+	    }
 	}
 	
 	/**

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="/_template.xhtml"
+			    xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://xmlns.jcp.org/jsf/html"
+			    xmlns:f="http://xmlns.jcp.org/jsf/core"
+			    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="body">
+        <h:form id="formLoan">
+            <p:panel header="Solicitar Empréstimo de Revista">
+                <p:messages id="msgs" closable="true" />
+
+                <p:dataTable value="#{loanMB.availableMagazines}" var="m" emptyMessage="Nenhuma revista disponível no momento." rows="10" paginator="true" style="margin-top:20px">
+                    
+                    <p:column headerText="Revista / Edição">
+					    <h:outputText value="#{m.edition.series.name} - Ed. #{m.edition.editionNumber}" />
+					</p:column>
+					
+					<p:column headerText="Ano">
+					    <h:outputText value="#{m.edition.year}" />
+					</p:column>
+
+                    <p:column headerText="Coleção">
+                        <h:outputText value="#{m.edition.series.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Localização (Caixa)">
+                        <h:outputText value="Cor: #{m.box.color} / No: #{m.box.number}" />
+                    </p:column>
+
+                    <p:column headerText="Ação" style="width:100px; text-align:center">
+                        <p:commandButton value="Pegar" action="#{loanMB.requestLoan(m)}" update="@form" icon="pi pi-check" styleClass="ui-button-success">
+                            <p:confirm header="Confirmação" message="Deseja realizar o empréstimo desta revista por 7 dias?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

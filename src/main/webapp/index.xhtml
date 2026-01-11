@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:p="http://primefaces.org/ui">
+			    
+    <ui:define name="body">
+        <p:panel header="Dashboard - Bem-vindo, #{userMB.loggedUser.name}!">
+            <h:panelGrid columns="1" style="width:100%; text-align:center;">
+                <h:outputText value="Bem-vindo ao Sistema Clube da Leitura!" style="font-size: 1.5em; font-weight: bold;" />
+            </h:panelGrid>
+            
+            <p:separator />
+            
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <p:staticMessage severity="info" summary="DICA" detail="Utilize o menu superior para gerenciar o acervo e seus empréstimos." />
+                </div>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,6 +1,7 @@
 package br.hvrp.biblios.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,6 +30,19 @@ public class Series {
 	@OneToMany(mappedBy = "series", cascade = CascadeType.ALL)
 	private List<Edition> editions;
 
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Series other = (Series) obj;
+	    return id != 0 && id == other.id;
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
+	}
+	
 	public int getId() {
 		return id;
 	}

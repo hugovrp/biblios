@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<ui:composition template="_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:p="http://primefaces.org/ui">
+			    
+    <ui:define name="body">
+        <h:form id="formBoxes">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Nova Caixa" icon="pi pi-plus" actionListener="#{boxMB.prepareNew()}" update=":dialogForm:boxDetail" process="@this" oncomplete="PF('boxDialog').show()" styleClass="ui-button-success"/> 
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt-boxes" widgetVar="dtBoxes" var="b" value="#{boxMB.boxes}" reflow="true" styleClass="mt-2" paginator="true" rows="10" paginatorPosition="bottom">
+                
+                <f:facet name="header">Lista de Caixas</f:facet>
+
+                <p:column headerText="Número" sortBy="#{b.number}" filterBy="#{b.number}">
+                    <h:outputText value="#{b.number}" /> 
+                </p:column>
+
+                <p:column headerText="Cor" sortBy="#{b.color}">
+                    <h:outputText value="#{b.color}" /> 
+                </p:column>
+
+                <p:column headerText="Ações" exportable="false">
+                    <p:commandButton icon="pi pi-pencil" update=":dialogForm" oncomplete="PF('boxDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
+                    </p:commandButton>
+         
+                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" oncomplete="PF('deleteBoxDialog').show()">
+                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
+                    </p:commandButton>
+                </p:column> 
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Detalhes da Caixa" widgetVar="boxDialog" modal="true" appendTo="@(body)" responsive="true">
+		    <h:form id="dialogForm">
+		        <p:outputPanel id="boxDetail" class="ui-fluid">
+		            <p:messages id="messagesDialog" closable="true" />
+		            
+		            <h:inputHidden value="#{boxMB.box.id}" />
+		
+		            <div class="field mb-3">
+		                <p:outputLabel for="number">Número da Caixa</p:outputLabel>
+		                <p:inputText id="number" value="#{boxMB.box.number}" required="true" requiredMessage="Número é obrigatório!">
+		                    <f:convertNumber integerOnly="true" />
+		                </p:inputText>
+		            </div>
+		            
+		            <div class="field mb-3">
+		                <p:outputLabel for="color">Cor</p:outputLabel>
+		                <p:inputText id="color" value="#{boxMB.box.color}" />
+		            </div>
+		
+		            <div class="flex justify-content-end mt-4">
+		                <p:commandButton value="Salvar" icon="pi pi-check" actionListener="#{boxMB.save()}" process="@form" update="boxDetail :formBoxes:dt-boxes" oncomplete="if (!args.validationFailed) PF('boxDialog').hide()" style="width: auto; margin-right: .5rem" />
+		                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('boxDialog').hide()" type="button" styleClass="ui-button-secondary" style="width: auto" />
+		            </div>
+		        </p:outputPanel>
+		    </h:form>
+		</p:dialog>
+
+        <p:confirmDialog widgetVar="deleteBoxDialog" showEffect="fade" width="300" message="Deseja excluir esta caixa?" header="Confirmação" severity="warn">
+            <h:form id="deleteForm">
+                <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{boxMB.delete(boxMB.box)}" process="@this" update=":formBoxes:dt-boxes" oncomplete="PF('deleteBoxDialog').hide()" />
+                <p:commandButton value="Não" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteBoxDialog').hide()" />
+            </h:form>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

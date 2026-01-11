@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="_template.xhtml"
+			    xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://xmlns.jcp.org/jsf/html"
+			    xmlns:f="http://xmlns.jcp.org/jsf/core"
+			    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="body">
+        <h:form id="formHistory">
+            <p:panel header="Meu Histórico de Empréstimos">
+                <p:dataTable value="#{loanMB.userLoans}" var="loan" emptyMessage="Você ainda não realizou nenhum empréstimo." rows="10" paginator="true" paginatorPosition="bottom" style="margin-top:10px">
+                    
+                    <p:column headerText="Revista">
+                        <h:outputText value="#{loan.magazine.edition.series.name}" />
+                    </p:column>
+
+                    <p:column headerText="Edição" style="width:100px; text-align:center">
+                        <h:outputText value="#{loan.magazine.edition.editionNumber}" />
+                    </p:column>
+                    
+                    <p:column headerText="Data Empréstimo" style="text-align:center">
+                        <h:outputText value="#{loan.loanDate.time}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Previsão Devolução" style="text-align:center">
+                        <h:outputText value="#{loan.expectedReturnDate.time}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Data Entrega Real" style="text-align:center">
+                        <h:outputText value="#{loan.actualReturnDate.time}" rendered="#{loan.actualReturnDate != null}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText value="Pendente" rendered="#{loan.actualReturnDate == null}" style="font-style: italic; color: gray" />
+                    </p:column>
+
+                    <p:column headerText="Status" style="text-align:center; width:120px">
+                        <p:tag value="#{loanMB.getStatusLabel(loan.status.name())}" severity="#{loan.status == 'RETURNED' ? 'success' : (loan.status == 'OVERDUE' ? 'danger' : 'info')}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

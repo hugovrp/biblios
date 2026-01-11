@@ -1,7 +1,9 @@
 package br.hvrp.biblios.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -14,6 +16,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +42,7 @@ public class User {
     private String confirmationToken;
 	
 	@Column(name = "data_expiracao_token")
-	private Calendar tokenExpirationDate;
+	private LocalDateTime tokenExpirationDate;
 	
 	@NotBlank(message = "O CPF é obrigatório.")
 	@Column(name = "cpf", nullable = false, unique = true)
@@ -67,32 +71,48 @@ public class User {
 	private String login;
 	
 	@Column(name = "data_nascimento")
-	private Calendar birthDate;
+	@Temporal(TemporalType.DATE)
+	private LocalDate birthDate;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Loan> loans;
 	
 	@PrePersist
 	private void prePersistActions() {
-		if(login == null || login.isBlank()) {
-			login = "user_" + UUID.randomUUID().toString().substring(0,8);
-		}
-		
-		if(confirmationToken == null) {
+	    // Lógica do Login Opcional
+	    if (login == null || login.trim().isEmpty()) {
+	        this.login = "user_" + UUID.randomUUID().toString().substring(0, 8);
+	    }
+	    
+	    // Lógica do Token e Expiração
+	    if (this.confirmationToken == null) {
 	        this.confirmationToken = UUID.randomUUID().toString();
 	        
-	        // Define a expiração para 24 horas a partir de agora
-	        Calendar expiration = Calendar.getInstance();
-	        expiration.add(Calendar.HOUR_OF_DAY, 24);
-	        this.tokenExpirationDate = expiration;
+	        this.tokenExpirationDate = LocalDateTime.now().plusHours(24);
 	    }
 	}
 	
 	public boolean isTokenValid() {
-	    if (this.tokenExpirationDate == null) return false;
-	    return Calendar.getInstance().before(this.tokenExpirationDate);
+	    if (this.tokenExpirationDate == null) {
+	        return false;
+	    }
+	    // Verifica se "agora" ainda é antes da data de expiração
+	    return LocalDateTime.now().isBefore(this.tokenExpirationDate);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    User other = (User) obj;
+	    return id != 0 && id == other.id;
 	}
 
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -108,6 +128,10 @@ public class User {
 	public String getConfirmationToken() {
         return confirmationToken;
     }
+	
+	public LocalDateTime getTokenExpirationDate() {
+		return tokenExpirationDate;
+	}
 
 	public String getCpf() {
 		return cpf;
@@ -133,7 +157,7 @@ public class User {
 		return login;
 	}
 
-	public Calendar getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 	
@@ -156,6 +180,10 @@ public class User {
 	public void setConfirmationToken(String confirmationToken) {
         this.confirmationToken = confirmationToken;
     }
+	
+	public void setTokenExpirationDate(LocalDateTime tokenExpirationDate) {
+		this.tokenExpirationDate = tokenExpirationDate;
+	}
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
@@ -181,7 +209,7 @@ public class User {
 		this.login = login;
 	}
 
-	public void setBirthDate(Calendar birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}	
 	

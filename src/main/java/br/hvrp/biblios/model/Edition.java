@@ -1,7 +1,7 @@
 package br.hvrp.biblios.model;
 
-import java.time.Year;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,7 +31,7 @@ public class Edition {
 	
 	@NotNull(message = "O ano da revista é obrigatório.")
 	@Column(name = "ano", nullable = false)
-	private Year year;
+	private Integer year;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_colecao", nullable = false)
@@ -40,6 +40,19 @@ public class Edition {
 	@OneToMany(mappedBy = "edition", cascade = CascadeType.ALL)
 	private List<Magazine> magazines;
 
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Edition other = (Edition) obj;
+	    return id != 0 && id == other.id;
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -48,7 +61,7 @@ public class Edition {
 		return editionNumber;
 	}
 
-	public Year getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
@@ -68,7 +81,7 @@ public class Edition {
 		this.editionNumber = editionNumber;
 	}
 
-	public void setYear(Year year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
