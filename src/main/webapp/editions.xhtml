@@ -11,7 +11,7 @@
     <ui:define name="body">
         <h:form id="formEditions">
             <p:panel header="Gerenciar Edições de Coleções">
-                <p:commandButton value="Nova Edição" icon="pi pi-plus" actionListener="#{editionMB.clean()}" oncomplete="PF('dlgEdition').show()" update=":formDlg:editionDetail" />
+                <p:commandButton value="Nova Edição" icon="bi bi-journal-plus" actionListener="#{editionMB.clean()}" oncomplete="PF('dlgEdition').show()" update=":formDlg:editionDetail" />
                 <p:dataTable id="dt-editions" value="#{editionMB.allEditions}" var="e" paginator="true" rows="10" styleClass="mt-2" emptyMessage="Nenhuma edição cadastrada.">
                     <p:column headerText="Coleção" sortBy="#{e.series.name}">
                         #{e.series.name}
@@ -26,7 +26,7 @@
                     </p:column>
 
                     <p:column headerText="Ações">
-                        <p:commandButton icon="pi pi-pencil" update=":formDlg:editionDetail" oncomplete="PF('dlgEdition').show()" styleClass="edit-button rounded-button ui-button-success">
+                        <p:commandButton icon="bi bi-pencil-square" update=":formDlg:editionDetail" oncomplete="PF('dlgEdition').show()" styleClass="edit-button rounded-button ui-button-success">
                             <f:setPropertyActionListener value="#{e}" target="#{editionMB.edition}" />
                         </p:commandButton>
                     </p:column>
@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <p:commandButton value="Salvar" actionListener="#{editionMB.save()}" update=":formEditions:dt-editions :messages" oncomplete="if (!args.validationFailed) PF('dlgEdition').hide()" />
+                        <p:commandButton value="Salvar" icon="bi bi-check-lg" actionListener="#{editionMB.save()}" update=":formEditions:dt-editions :messages" oncomplete="if (!args.validationFailed) PF('dlgEdition').hide()" />
                     </div>
                 </p:outputPanel>
             </h:form>

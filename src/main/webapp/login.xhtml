@@ -9,6 +9,7 @@
     <h:head>
         <title>Biblios - Login</title>
         <h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
     </h:head>
 
     <h:body>
@@ -21,7 +22,7 @@
                     <div class="ui-fluid">
                         <p:inputText placeholder="E-mail" value="#{userMB.loginInput}" required="true" />
                         <p:password placeholder="Senha" value="#{userMB.passwordInput}" required="true"/>
-                        <p:commandButton value="Entrar" action="#{userMB.login()}" ajax="false"/>
+                        <p:commandButton value="Entrar" action="#{userMB.login()}" ajax="false" icon="bi bi-box-arrow-in-right"/>
                         <p:link value="Criar nova conta" outcome="register"/>
                     </div>
                 </h:form>

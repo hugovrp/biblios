@@ -11,13 +11,13 @@
     <ui:define name="body">
         <h:form id="formSeries">
             <p:panel header="Gerenciar Coleções">
-                <p:commandButton value="Nova Coleção" icon="pi pi-plus" oncomplete="PF('dlgSeries').show()" update=":formDlg:seriesDetail" />
+                <p:commandButton value="Nova Coleção" icon="bi bi-collection" styleClass="mb-3" oncomplete="PF('dlgSeries').show()" update=":formDlg:seriesDetail" />
 
                 <p:dataTable value="#{seriesMB.allSeries}" var="s" paginator="true" rows="10">
                     <p:column headerText="ID">#{s.id}</p:column>
                     <p:column headerText="Nome">#{s.name}</p:column>
                     <p:column headerText="Ações">
-                        <p:commandButton icon="pi pi-pencil" update=":formDlg:seriesDetail" oncomplete="PF('dlgSeries').show()">
+                        <p:commandButton icon="bi bi-pencil-square" update=":formDlg:seriesDetail" oncomplete="PF('dlgSeries').show()">
                             <f:setPropertyActionListener value="#{s}" target="#{seriesMB.series}" />
                         </p:commandButton>
                     </p:column>
@@ -31,7 +31,7 @@
                     <p:outputLabel for="nome" value="Nome:" />
                     <p:inputText id="nome" value="#{seriesMB.series.name}" required="true" />
                     
-                    <p:commandButton value="Salvar" action="#{seriesMB.save()}" update=":formSeries :formDlg" oncomplete="PF('dlgSeries').hide()" />
+                    <p:commandButton value="Salvar" icon="bi bi-check-lg" action="#{seriesMB.save()}" update=":formSeries :formDlg" oncomplete="PF('dlgSeries').hide()" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>

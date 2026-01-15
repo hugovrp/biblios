@@ -10,34 +10,32 @@
 			    
     <ui:define name="body">
         <h:form id="formBoxes">
-            <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton value="Nova Caixa" icon="pi pi-plus" actionListener="#{boxMB.prepareNew()}" update=":dialogForm:boxDetail" process="@this" oncomplete="PF('boxDialog').show()" styleClass="ui-button-success"/> 
-                </p:toolbarGroup>
-            </p:toolbar>
-
-            <p:dataTable id="dt-boxes" widgetVar="dtBoxes" var="b" value="#{boxMB.boxes}" reflow="true" styleClass="mt-2" paginator="true" rows="10" paginatorPosition="bottom">
-                
-                <f:facet name="header">Lista de Caixas</f:facet>
-
-                <p:column headerText="Número" sortBy="#{b.number}" filterBy="#{b.number}">
-                    <h:outputText value="#{b.number}" /> 
-                </p:column>
-
-                <p:column headerText="Cor" sortBy="#{b.color}">
-                    <h:outputText value="#{b.color}" /> 
-                </p:column>
-
-                <p:column headerText="Ações" exportable="false">
-                    <p:commandButton icon="pi pi-pencil" update=":dialogForm" oncomplete="PF('boxDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
-                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
-                    </p:commandButton>
-         
-                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" oncomplete="PF('deleteBoxDialog').show()">
-                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
-                    </p:commandButton>
-                </p:column> 
-            </p:dataTable>
+			<p:panel header="Gerenciar Caixas">
+	            <p:commandButton value="Nova Caixa" icon="bi bi-plus-circle" actionListener="#{boxMB.prepareNew()}" update=":dialogForm:boxDetail" process="@this" oncomplete="PF('boxDialog').show()" /> 
+	
+	            <p:dataTable id="dt-boxes" widgetVar="dtBoxes" var="b" value="#{boxMB.boxes}" reflow="true" styleClass="mt-2" paginator="true" rows="10" paginatorPosition="bottom">
+	                
+	                <f:facet name="header">Lista de Caixas</f:facet>
+	
+	                <p:column headerText="Número" sortBy="#{b.number}" filterBy="#{b.number}">
+	                    <h:outputText value="#{b.number}" /> 
+	                </p:column>
+	
+	                <p:column headerText="Cor" sortBy="#{b.color}">
+	                    <h:outputText value="#{b.color}" /> 
+	                </p:column>
+	
+	                <p:column headerText="Ações" exportable="false">
+	                    <p:commandButton icon="bi bi-pencil-square" update=":dialogForm" oncomplete="PF('boxDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+	                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
+	                    </p:commandButton>
+	         
+	                    <p:commandButton class="ui-button-warning rounded-button" icon="bi bi-trash3" process="@this" oncomplete="PF('deleteBoxDialog').show()">
+	                        <f:setPropertyActionListener value="#{b}" target="#{boxMB.box}" /> 
+	                    </p:commandButton>
+	                </p:column> 
+	            </p:dataTable>
+            </p:panel>
         </h:form>
 
         <p:dialog header="Detalhes da Caixa" widgetVar="boxDialog" modal="true" appendTo="@(body)" responsive="true">
@@ -60,8 +58,8 @@
 		            </div>
 		
 		            <div class="flex justify-content-end mt-4">
-		                <p:commandButton value="Salvar" icon="pi pi-check" actionListener="#{boxMB.save()}" process="@form" update="boxDetail :formBoxes:dt-boxes" oncomplete="if (!args.validationFailed) PF('boxDialog').hide()" style="width: auto; margin-right: .5rem" />
-		                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('boxDialog').hide()" type="button" styleClass="ui-button-secondary" style="width: auto" />
+		                <p:commandButton value="Salvar" icon="bi bi-check-lg" actionListener="#{boxMB.save()}" process="@form" update="boxDetail :formBoxes:dt-boxes" oncomplete="if (!args.validationFailed) PF('boxDialog').hide()" style="width: auto; margin-right: .5rem" />
+		                <p:commandButton value="Cancelar" icon="bi bi-x-lg" onclick="PF('boxDialog').hide()" type="button" styleClass="ui-button-secondary" style="width: auto" />
 		            </div>
 		        </p:outputPanel>
 		    </h:form>

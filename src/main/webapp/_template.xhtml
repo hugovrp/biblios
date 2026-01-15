@@ -10,6 +10,7 @@
 	<h:head>
 		<title>Biblios</title>
 		<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 	</h:head>
 	
 	<h:body>
@@ -18,25 +19,25 @@
 	    <div id="header">
 	        <h:form id="menuForm">
 	            <p:menubar rendered="#{userMB.loggedUser != null}">
-	                <p:menuitem value="Home" icon="pi pi-home" outcome="index" />
+	                <p:menuitem value="Home" icon="bi bi-house-door" outcome="index" />
 	                
-	                <p:submenu label="Admin" rendered="#{userMB.loggedUser.profile == 'admin'}">
-	                    <p:menuitem value="Caixas" outcome="boxes"/>
-	                    <p:menuitem value="Coleções" outcome="series"/>
-	                    <p:menuitem value="Edições" outcome="editions"/>
-	                    <p:menuitem value="Revistas" outcome="magazines"/>
-	                    <p:menuitem value="Gerenciar Devoluções" outcome="admin_loans"/>
-	                    <p:menuitem value="Relatórios" outcome="reports"/>
+	                <p:submenu label="Gerenciar" icon="bi bi-gear" rendered="#{userMB.loggedUser.profile == 'admin'}">
+	                    <p:menuitem value="Caixas" outcome="boxes" icon="bi bi-box"/>
+	                    <p:menuitem value="Coleções" outcome="series" icon="bi bi-collection"/>
+	                    <p:menuitem value="Edições" outcome="editions" icon="bi bi-journal"/>
+	                    <p:menuitem value="Revistas" outcome="magazines" icon="bi bi-book"/>
+	                    <p:menuitem value="Gerenciar Devoluções" outcome="admin_loans" icon="bi bi-arrow-left-right"/>
+	                    <p:menuitem value="Relatórios" outcome="reports" icon="bi bi-graph-up"/>
 	                </p:submenu>
 	
-	                <p:submenu label="Loans">
-	                	<p:menuitem value="Solicitar" outcome="request_loan"/>
-	                	<p:menuitem value="Meu Histórico" outcome="loan_history"/>
+	                <p:submenu label="Empréstimos">
+	                	<p:menuitem value="Solicitar" outcome="request_loan" icon="bi bi-cart-plus"/>
+	                	<p:menuitem value="Meu Histórico" outcome="loan_history" icon="bi bi-clock-history"/>
 	                </p:submenu>
 	
 	                <f:facet name="options">
-	                    <p:commandButton value="Sair (#{userMB.loggedUser.name})" action="#{userMB.logout()}" icon="pi pi-sign-out" />
-	                </f:facet>
+					    <p:commandButton value="Sair (#{userMB.loggedUser.name})" action="#{userMB.logout()}" styleClass="menu-logout-button" />
+					</f:facet>
 	            </p:menubar>
 	        </h:form>
 	    </div>

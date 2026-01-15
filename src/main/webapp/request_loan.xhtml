@@ -32,7 +32,7 @@
                     </p:column>
 
                     <p:column headerText="Ação" style="width:100px; text-align:center">
-                        <p:commandButton value="Pegar" action="#{loanMB.requestLoan(m)}" update="@form" icon="pi pi-check" styleClass="ui-button-success">
+                        <p:commandButton value="Pegar" action="#{loanMB.requestLoan(m)}" update="@form" icon="bi bi-book" styleClass="ui-button-success">
                             <p:confirm header="Confirmação" message="Deseja realizar o empréstimo desta revista por 7 dias?" icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
                     </p:column>
@@ -40,8 +40,8 @@
             </p:panel>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="bi bi-check-lg" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="bi bi-x-lg" />
             </p:confirmDialog>
         </h:form>
     </ui:define>

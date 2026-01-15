@@ -54,9 +54,45 @@ public class LoanDAO extends DAO<Loan> {
     public List<Loan> findOverdue() {
         EntityManager em = new EntityManagerProvider().getEntityManager();
         try {
-            String jpql = "SELECT l FROM Loan l WHERE l.status = :status AND l.expectedReturnDate < :now";
+            String jpql = """
+                SELECT l FROM Loan l 
+                WHERE l.status = :status
+            """;
+
+            return em.createQuery(jpql, Loan.class)
+                     .setParameter("status", LoanStatus.OVERDUE)
+                     .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    
+    public void updateOverdueLoans() {
+        EntityManager em = new EntityManagerProvider().getEntityManager();
+        try {
+            em.getTransaction().begin();
             
-            return em.createQuery(jpql, Loan.class).setParameter("status", LoanStatus.ACTIVE).setParameter("now", java.util.Calendar.getInstance()).getResultList();
-        } finally { em.close(); }
+            String jpql = "UPDATE Loan l SET l.status = :overdue " +
+                          "WHERE l.status = :active " +
+                          "AND l.expectedReturnDate < :now";
+            
+            int updated = em.createQuery(jpql)
+                .setParameter("overdue", LoanStatus.OVERDUE)
+                .setParameter("active", LoanStatus.ACTIVE)
+                .setParameter("now", java.util.Calendar.getInstance())
+                .executeUpdate();
+            
+            em.getTransaction().commit();
+            
+            System.out.println("Empréstimos atualizados para OVERDUE: " + updated);
+        } catch(Exception e) {
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
     }
 }

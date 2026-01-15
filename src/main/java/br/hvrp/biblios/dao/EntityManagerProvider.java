@@ -16,7 +16,7 @@ public class EntityManagerProvider {
 	 *  Factory para criação de EntityManagers.
 	 *  Inicializada com a unidade de persistência "biblios".
 	 */
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("biblios");
+	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("Biblios");
 
 	/**
 	 *  Cria e retorna uma nova instância de EntityManager.

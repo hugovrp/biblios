@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition template="/_template.xhtml"
 			    xmlns="http://www.w3.org/1999/xhtml"
 			    xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -7,9 +10,9 @@
 
     <ui:define name="body">
         <h:form id="formAdminLoans">
-            <p:panel header="Gerenciamento de EmprÃ©stimos Ativos (Painel do Administrador)">
-                <p:dataTable value="#{loanMB.activeLoans}" var="loan" emptyMessage="NÃ£o hÃ¡ emprÃ©stimos ativos no momento." rows="15" paginator="true" paginatorPosition="bottom">
-                    <p:column headerText="UsuÃ¡rio" filterBy="#{loan.user.name}" filterMatchMode="contains">
+            <p:panel header="Gerenciamento de Empréstimos Ativos (Painel do Administrador)">
+                <p:dataTable value="#{loanMB.activeLoans}" var="loan" emptyMessage="Não há empréstimos ativos no momento." rows="15" paginator="true" paginatorPosition="bottom">
+                    <p:column headerText="Usuário" filterBy="#{loan.user.name}" filterMatchMode="contains">
                         <h:outputText value="#{loan.user.name}" />
                     </p:column>
 
@@ -17,28 +20,28 @@
                         <h:outputText value="#{loan.magazine.edition.series.name} - #{loan.magazine.edition.editionNumber}" />
                     </p:column>
                     
-                    <p:column headerText="Data EmprÃ©stimo" style="text-align:center">
+                    <p:column headerText="Data Empréstimo" style="text-align:center">
                         <h:outputText value="#{loan.loanDate.time}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Prazo DevoluÃ§Ã£o" style="text-align:center">
+                    <p:column headerText="Prazo Devolução" style="text-align:center">
                         <h:outputText value="#{loan.expectedReturnDate.time}" style="#{loan.status == 'OVERDUE' ? 'color:red; font-weight:bold' : ''}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="AÃ§Ãµes" style="text-align:center; width:150px">
-                        <p:commandButton value="Baixar DevoluÃ§Ã£o" action="#{loanMB.returnMagazine(loan)}" update="@form" styleClass="ui-button-success"icon="pi pi-check">
-                            <p:confirm header="ConfirmaÃ§Ã£o" message="Confirmar a devoluÃ§Ã£o desta revista?" icon="pi pi-exclamation-triangle" />
+                    <p:column headerText="Ações" style="text-align:center; width:150px">
+                        <p:commandButton value="Baixar Devolução" action="#{loanMB.returnMagazine(loan)}" update="@form" styleClass="ui-button-success" icon="bi bi-check-circle">
+                            <p:confirm header="Confirmação" message="Confirmar a devolução desta revista?" icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
             </p:panel>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                <p:commandButton value="NÃ£o" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
                 <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
             </p:confirmDialog>
         </h:form>

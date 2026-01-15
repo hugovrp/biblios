@@ -10,28 +10,25 @@
 			    
     <ui:define name="body">
         <h:form id="formMagazines">
-            <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton value="Nova Revista" icon="pi pi-plus" actionListener="#{magazineMB.clean()}" oncomplete="PF('dlgMag').show()" update=":formDlg:magDetail" />
-                </p:toolbarGroup>
-            </p:toolbar>
-
-            <p:dataTable id="dt-magazines" value="#{magazineMB.allMagazines}" var="m" paginator="true" rows="10" styleClass="mt-2">
-                
-                <p:column headerText="Coleção">#{m.edition.series.name}</p:column>
-                <p:column headerText="Edição">#{m.edition.editionNumber}</p:column>
-                <p:column headerText="Ano">#{m.edition.year}</p:column>
-                <p:column headerText="Caixa (Cor)">#{m.box.color} (Nº #{m.box.number})</p:column>
-                <p:column headerText="Status">
-                    <p:tag value="#{m.status}" severity="#{m.status == 'AVAILABLE' ? 'success' : 'danger'}" />
-                </p:column>
-                
-                <p:column headerText="Ações">
-                    <p:commandButton icon="pi pi-pencil" update=":formDlg:magDetail" oncomplete="PF('dlgMag').show()">
-                        <f:setPropertyActionListener value="#{m}" target="#{magazineMB.magazine}" />
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
+            <p:panel header="Gerenciar Revistas">
+	            <p:commandButton value="Nova Revista" icon="bi bi-book" actionListener="#{magazineMB.clean()}" oncomplete="PF('dlgMag').show()" update=":formDlg:magDetail" />
+	
+	            <p:dataTable id="dt-magazines" value="#{magazineMB.allMagazines}" var="m" paginator="true" rows="10" styleClass="mt-2">
+	                <p:column headerText="Coleção">#{m.edition.series.name}</p:column>
+	                <p:column headerText="Edição">#{m.edition.editionNumber}</p:column>
+	                <p:column headerText="Ano">#{m.edition.year}</p:column>
+	                <p:column headerText="Caixa (Cor)">#{m.box.color} (Nº #{m.box.number})</p:column>
+	                <p:column headerText="Status">
+	                    <p:tag value="#{m.status}" severity="#{m.status == 'AVAILABLE' ? 'success' : 'danger'}" />
+	                </p:column>
+	                
+	                <p:column headerText="Ações">
+	                    <p:commandButton icon="bi bi-pencil-square" update=":formDlg:magDetail" oncomplete="PF('dlgMag').show()">
+	                        <f:setPropertyActionListener value="#{m}" target="#{magazineMB.magazine}" />
+	                    </p:commandButton>
+	                </p:column>
+	            </p:dataTable>
+            </p:panel>
         </h:form>
 
         <p:dialog header="Cadastro de Revista" widgetVar="dlgMag" modal="true" responsive="true">
@@ -54,7 +51,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <p:commandButton value="Salvar" actionListener="#{magazineMB.save()}" update=":formMagazines:dt-magazines :messages" oncomplete="if (!args.validationFailed) PF('dlgMag').hide()" />
+                        <p:commandButton value="Salvar" icon="bi bi-check-lg" actionListener="#{magazineMB.save()}" update=":formMagazines:dt-magazines :messages" oncomplete="if (!args.validationFailed) PF('dlgMag').hide()" />
                     </div>
                 </p:outputPanel>
             </h:form>

@@ -27,7 +27,7 @@
                         </p:selectOneMenu>
                     </h:panelGroup>
 
-                    <p:commandButton value="Gerar" action="#{loanMB.generateReport()}" update="tblReport" icon="pi pi-search" />
+                    <p:commandButton value="Gerar" action="#{loanMB.generateReport()}" update="tblReport" icon="bi bi-file-earmark-text" />
                 </p:panelGrid>
 
                 <p:dataTable id="tblReport" value="#{loanMB.filteredLoans}" var="loan" style="margin-top:20px" emptyMessage="Nenhum registro encontrado.">
